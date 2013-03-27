@@ -15,21 +15,27 @@ import tp.tempsreel.lectrec.LectRect;
  * @author greg
  */
 public class Ecrivain2 extends Thread {
-
-    Semaphore MLecture, MEcriture,mutex2;
-
-    public Ecrivain2(Semaphore ecriture, Semaphore lecture,Semaphore mutex2) {
+    Semaphore MLecture,MEcriture,mutex2;
+    static Integer counter = 0;
+    private int timeWait = 0;
+    private int id;
+    
+    public Ecrivain2( Semaphore ecriture, Semaphore lecture, Semaphore mutex2, int timeWait, int id)
+    {
         this.MEcriture = ecriture;
         this.MLecture = lecture;
         this.mutex2 = mutex2;
+        this.timeWait=timeWait;
+        this.id=id;
     }
 
     @Override
     public void run() {
         try {
-            System.out.println("Ecrivain");
+            System.out.println("Ecrivain "+id);
             mutex2.acquire();
             MEcriture.acquire();
+            Thread.sleep(timeWait);
             int lower = 0;
             int higher = 3;
             int random = (int)(Math.random() * (higher-lower)) + lower;
@@ -37,8 +43,7 @@ public class Ecrivain2 extends Thread {
             higher=1000;
             int random2  = (int)(Math.random() * (higher-lower)) + lower;
             LectRect.tab[random]=random2;
-            System.out.println("J'écris "+random2+" à la case "+random);
-            Thread.sleep(500);
+            System.out.println("Je suis "+id+" et j'écris "+random2+" à la case "+random);
             MEcriture.release();
             mutex2.release();
         } catch (InterruptedException ex) {

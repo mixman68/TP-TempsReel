@@ -17,24 +17,28 @@ import tp.tempsreel.lectrec.LectRect;
 public class Lecteur2 extends Thread {
     Semaphore MLecture,MEcriture,mutex2;
     static Integer counter = 0;
+    private int timeWait = 0;
+    private int id;
     
-    public Lecteur2( Semaphore ecriture, Semaphore lecture, Semaphore mutex2)
+    public Lecteur2( Semaphore ecriture, Semaphore lecture, Semaphore mutex2, int timeWait, int id)
     {
         this.MEcriture = ecriture;
         this.MLecture = lecture;
         this.mutex2 = mutex2;
+        this.timeWait=timeWait;
+        this.id=id;
     }
         @Override
         public void run() {
         try {
-            System.out.println("Lecteur");
+            System.out.println("Lecteur "+id);
             MLecture.acquire();
                 counter++;
                 if(counter==1)
                     MEcriture.acquire();
             MLecture.release();
             StringBuffer buff = new StringBuffer();
-            buff.append("Lecture en cours \n");
+            buff.append("Lecture en cours par "+id+" : ");
             for(int i = 0 ; i < 3 ; i ++)
             {
                 buff.append(LectRect.tab[i]);

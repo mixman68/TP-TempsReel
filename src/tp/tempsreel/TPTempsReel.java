@@ -4,6 +4,8 @@
  */
 package tp.tempsreel;
 
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.ReentrantLock;
 import tp.tempsreel.ech.Echauffement;
 
 /**
@@ -11,7 +13,6 @@ import tp.tempsreel.ech.Echauffement;
  * @author greg
  */
 public class TPTempsReel {
-    public static int compteur = 0;
     /**
      * @param args the command line arguments
      */

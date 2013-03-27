@@ -13,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import tp.tempsreel.lectrec.strat3.Ecrivain3;
 import tp.tempsreel.lectrec.strat3.Lecteur3;
+import tp.tempsreel.lectrec.strat4.Ecrivain4;
+import tp.tempsreel.lectrec.strat4.Lecteur4;
 
 
 /**
@@ -26,6 +28,8 @@ public class LectRect {
             final Semaphore MLecture = new Semaphore(1);
             final Semaphore MEcriture = new Semaphore(1);
             final Semaphore mutex2 = new Semaphore(1);
+            final Semaphore mutex3 = new Semaphore(1);
+            final Semaphore mutex1 = new Semaphore(1);
             
             //static counter = 0;
             for (int i = 0 ;i < 3 ; i++)
@@ -84,7 +88,7 @@ public class LectRect {
             */
             
             /* stratégie 3 */
-            
+            /*
             Lecteur3[] lecteurs3 = new Lecteur3[5];
             Ecrivain3[] ecrivains3 = new Ecrivain3[5];
             
@@ -106,6 +110,30 @@ public class LectRect {
             lecteurs3[3].start();
             ecrivains3[2].start();
             lecteurs3[4].start();
+            */
+            /* stratégie 4 */
+            Lecteur4[] lecteurs4 = new Lecteur4[5];
+            Ecrivain4[] ecrivains4 = new Ecrivain4[5];
+            
+            lecteurs4[1] = new Lecteur4(MEcriture,MLecture,mutex1,mutex2,mutex3,3000,2);
+            lecteurs4[2] = new Lecteur4(MEcriture,MLecture,mutex1,mutex2,mutex3,10,3);
+            lecteurs4[3] = new Lecteur4(MEcriture,MLecture,mutex1,mutex2,mutex3,10,4);
+            lecteurs4[4] = new Lecteur4(MEcriture,MLecture,mutex1,mutex2,mutex3,10,5);
+            lecteurs4[0] = new Lecteur4(MEcriture,MLecture,mutex1,mutex2,mutex3,10,1);
+            
+            ecrivains4[1] = new Ecrivain4(MEcriture,MLecture,mutex1,mutex2,mutex3,10,2);
+            ecrivains4[2] = new Ecrivain4(MEcriture,MLecture,mutex1,mutex2,mutex3,10,3);      
+            ecrivains4[0] = new Ecrivain4(MEcriture,MLecture,mutex1,mutex2,mutex3,1000,1);
+               
+            lecteurs4[0].start();
+            lecteurs4[1].start();
+            ecrivains4[0].start();
+            lecteurs4[2].start();
+            ecrivains4[1].start();
+            lecteurs4[3].start();
+            ecrivains4[2].start();
+            lecteurs4[4].start();
+            
                    
             
         }
